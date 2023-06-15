@@ -1,83 +1,61 @@
+// ignore_for_file: unused_local_variable, prefer_const_constructors_in_immutables, prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import '../widgets/customAppBar.dart';
+import '../widgets/customButtom.dart';
 
 class FormPage extends StatefulWidget {
-  const FormPage({Key? key}) : super(key: key);
+  final String acao;
+
+  FormPage({Key? key, required this.acao}) : super(key: key);
 
   @override
   State<FormPage> createState() => _MyFormPage();
 }
 
-class _MyFormPage extends State<FormPage>{
+class _MyFormPage extends State<FormPage> {
+  String acesso = "";
+  String senha = "";
+
   @override
   Widget build(BuildContext context) {
+    final String acao = widget.acao;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.deepOrangeAccent[100],
-        title: Text('Silimed'),
-      ),
-      body: Center(
-        child:Column(
-          children: [
-            Expanded(
-              child: Form(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 40.0),
-                       child:TextFormField(
-                        keyboardType: TextInputType.name,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          labelText: 'Entre com seu nome:',
-                        ),
-                       ),
-                      ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 40.0),
-                      child:TextFormField(
-                        keyboardType: TextInputType.visiblePassword,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          labelText: 'Entre com seu senha:',
-                        ),
-                      ),
-                    ),
-                   Padding(
-                     padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 40.0),
-                       child:Container(
-                         width: MediaQuery.of(context).size.width, // Define a largura como infinita para ocupar todo o espaço disponível
-                         child: ElevatedButton(
-                           style: ButtonStyle(
-                             backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                             shape: MaterialStateProperty.all<OutlinedBorder>(
-                               RoundedRectangleBorder(
-                                 borderRadius: BorderRadius.circular(10.0),
-                               ),
-                             ),
-                           ),
-                           onPressed: () {
-                             // Lógica para processar o formulário
-                           },
-                           child: const Text(
-                             'Enviar',
-                             style: TextStyle(
-                               fontSize: 20,
-                               fontWeight: FontWeight.bold,
-                               color: Colors.grey,
-                              ),
-                           ),
-                         ),
-                       ),
-                   ),
-                  ],
-                ),
+      appBar: CustomAppBar(title: acao),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 30,
               ),
-            ),
-          ],
+              TextField(
+                onChanged: (text) {
+                  acesso = text;
+                },
+                decoration: InputDecoration(
+                    labelText: "Acesso", border: OutlineInputBorder()),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              TextField(
+                onChanged: (text) {
+                  senha = text;
+                },
+                obscureText: true,
+                decoration: InputDecoration(
+                    labelText: "Password", border: OutlineInputBorder()),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              CustomButton(
+                  title: "Enviar", acesso: acesso, senha: senha, acao: acao)
+            ],
+          ),
         ),
       ),
     );
